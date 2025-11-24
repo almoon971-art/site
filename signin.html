@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Safe-Handy – Connexion</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f7fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .card {
+        width: 350px;
+        background: white;
+        padding: 35px;
+        border-radius: 14px;
+        box-shadow: 0px 5px 25px rgba(0,0,0,0.12);
+        text-align: left;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 5px;
+        font-size: 22px;
+    }
+
+.ay {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 20px;
+        color: #f4e804;
+    }
+
+    .subtitle {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 14px;
+        color: #f4e804;
+    }
+
+    label {
+        font-size: 14px;
+        color: #444;
+    }
+
+    input {
+        width: 100%;
+        padding: 11px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        outline: none;
+    }
+
+    .password-box {
+        position: relative;
+    }
+
+    .toggle-eye {
+        position: absolute;
+        right: 12px;
+        top: 14px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        background: #f4e804;
+        color:  rgb(253, 253, 249);
+        font-size: 15px;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 5px;
+    }
+
+    .center-link {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .center-link a {
+        color: #f4e804;
+        text-decoration: none;
+    }
+
+    .center-link a:hover {
+        text-decoration: underline;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h2 class="ay" >Bienvenue</h2>
+    <p class="subtitle">Connectez-vous à votre compte</p>
+
+    <!-- EMAIL -->
+    <label>E-mail</label>
+    <input type="email" placeholder="votre.email@example.com">
+
+    <!-- PASSWORD -->
+    <label>Mot de passe</label>
+    <div class="password-box">
+        <input type="password" id="password" placeholder="Votre mot de passe">
+        <span class="toggle-eye" onclick="togglePassword()">👁</span>
+    </div>
+   
+
+    <!-- LOGIN BUTTON + HREF LOCATION -->
+    <button class="btn"
+        onclick="window.location.href='index5.html'">
+        Se Connecter
+    </button>
+
+    <!-- CREATE ACCOUNT -->
+    <div class="center-link">
+        <a href="create-account.html">Créer un Compte</a>
+    </div>
+
+    <!-- RESET PASSWORD -->
+    <div class="center-link" style="margin-top: 15px;">
+        <a href="reset-password.html">Mot de passe oublié ?</a>
+    </div>
+
+</div>
+
+<script>
+function togglePassword() {
+    let pw = document.getElementById("password");
+    pw.type = pw.type === "password" ? "text" : "password";
+}
+</script>
+
+</body>
+</html>

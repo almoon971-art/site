@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Safe-HANDY</title>
+<style>
+  
+  :root{
+    --accent:#ffbf00; 
+    --muted:#989a9e;
+    --card:#ffffff;
+    --bg:#fffacd;
+    --glass: rgba(234, 235, 223, 0.7);
+    --shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,#fffacd 0%,var(--bg) 100%);color:#020e09}
+  header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:var(--glass);backdrop-filter: blur(6px);box-shadow:var(--shadow);position:sticky;top:0;z-index:50}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700}
+  .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#ffc107);display:flex;align-items:center;justify-content:center;color:white;font-weight:800}
+  .search{flex:1;max-width:760px;margin:0 18px;display:flex;align-items:center;gap:8px}
+  .search input{flex:1;padding:10px 14px;border-radius:999px;border:1px solid hwb(50 20% 50%);background:rgb(255,250,205)}
+  .actions{display:flex;gap:12px;align-items:center}
+  .btn{padding:8px 12px;border-radius:10px;background:transparent;border:1px solid var(--accent);cursor:pointer;color:var(--accent);font-weight:600}
+  .btn:hover{background:var(--accent);color:white;}
+
+  main{padding:28px}
+  .hero{display:flex;gap:20px;align-items:center;margin-bottom:20px}
+  .hero-left{flex:1}
+  .hero h1{font-size:28px;margin:0 0 8px}
+  .hero p{margin:0;color:var(--muted)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px}
+  .card{background:var(--card);border-radius:12px;padding:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px}
+  .thumb{height:160px;border-radius:10px;background:#fff8dc;display:flex;align-items:center;justify-content:center;font-weight:700;color:#9aa3b2;cursor:pointer;overflow:hidden}
+  .thumb img{width:100%;height:100%;object-fit:cover;border-radius:10px;}
+  .title{font-size:14px;font-weight:600}
+  .meta{color:var(--muted);font-size:13px}
+  .price-row{display:flex;justify-content:space-between;align-items:center}
+  .price{font-weight:800;color:var(--accent)}
+  .old{color:var(--muted);text-decoration:line-through;font-size:13px}
+  .add{background:var(--accent);color:white;padding:8px 10px;border-radius:8px;border:none;cursor:pointer}
+  .add:hover{opacity:0.85;}
+
+  .sidebar{width:260px}
+  .layout{display:grid;grid-template-columns:260px 1fr;gap:18px}
+  .card.small{padding:10px}
+
+  footer{padding:28px;text-align:center;color:var(--muted)}
+
+  /* modal */
+  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.4);z-index:90}
+  .modal.open{display:flex}
+  .modal-panel{width:920px;max-width:96%;background:white;border-radius:12px;padding:18px;box-shadow:0 20px 60px rgba(2,6,23,0.35);display:flex;gap:18px;flex-direction:column}
+
+  input, select, textarea{width:100%;padding:8px;border-radius:8px;border:1px solid #e6e9ef;margin-bottom:8px}
+
+  @media (max-width:900px){.layout{grid-template-columns:1fr}.sidebar{display:none}.hero{flex-direction:column;align-items:flex-start}.search{max-width:none}}
+  .logo{
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background-image: url(https://cdn.discordapp.com/attachments/1442276713517285396/1442296189449015296/4cac8314-362a-4670-8154-44057a1d6c57.jpg?ex=6924ea80&is=69239900&hm=711d9ab85dcf7c2562d9d34847e22c5c907d202eda6020250b06041ded6a56c2&);
+    background-size: cover;
+    background-position: center;
+      }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div  class="logo"></div>
+    <div>
+      <div style="font-size:14px">Safe-HANDY </div>
+      <div style="font-size:12px;color:var(--muted)">Service providers for any project or request.</div>
+    </div>
+  </div>
+
+  <div class="search">
+    <input id="searchInput" placeholder="Search Services..." />
+    <a target="_blank" href="https://youtu.be/zie_xSa2oRc?si=cisrUCYOgnU5JzBY">  <button class="btn"> Youtube Cours </button> </a>
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="openAddProductModal()">Post Your Product</button>
+    <button class="btn">Cart (<span id="cartCount">0</span>)</button>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="hero-left">
+      <h1>Find The Perfect Service </h1>
+      <p>Discover trending deals — Post your own products!</p>
+    </div>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="card small">
+        <div style="font-weight:700">Categories</div>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+          <button class="btn" onclick="filterCategory('all')">All</button>
+          <button class="btn" onclick="filterCategory('electronics')">Electronics</button>
+          <button class="btn" onclick="filterCategory('fashion')">Mecanique</button>
+          <button class="btn" onclick="filterCategory('Kichen')">Kichen</button>
+          <button class="btn" onclick="filterCategory('fashion')">Fashion</button>
+          <button class="btn" onclick="filterCategory('Artisanat')">Artisanat</button>
+          <button class="btn" onclick="filterCategory('Electricity')">Electricity</button>
+          <button class="btn" onclick="filterCategory('home')">Home</button>
+        </div>
+      </div>
+
+      <div class="card small" style="margin-top:12px">
+        <div style="font-weight:700">Sort</div>
+        <select id="sortSelect" style="width:100%;margin-top:8px;padding:8px;border-radius:8px;border:1px solid #e6e9ef" onchange="renderProducts()">
+          <option value="popular">Popular</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+        </select>
+      </div>
+    </aside>
+
+    <section style="min-height:400px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-weight:700">Trending</div>
+        <div style="color:var(--muted)">Showing <span id="showingCount">0</span> results</div>
+      </div>
+
+      <div id="grid" class="grid"></div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  Youssef Store — 777
+</footer>
+
+<!-- Product Modal -->
+<div id="modal" class="modal" onclick="closeModal(event)">
+  <div class="modal-panel" onclick="event.stopPropagation()">
+    <div style="flex:1">
+      <div id="modalImg" style="height:360px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#9aa3b2">Image</div>
+    </div>
+    <div style="width:360px;display:flex;flex-direction:column;gap:8px">
+      <div id="modalTitle" style="font-weight:800;font-size:20px">Product title</div>
+      <div id="modalDesc" style="color:var(--muted)">Description</div>
+      <div style="margin-top:auto;display:flex;gap:8px;align-items:center">
+        <div style="font-weight:800;font-size:20px" id="modalPrice">$0.00</div>
+        <button class="add" onclick="addToCartFromModal()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Product Modal -->
+<div id="addProductModal" class="modal" onclick="closeAddProductModal(event)">
+  <div class="modal-panel" onclick="event.stopPropagation()">
+    <h2 style="color:var(--accent)">Post Your Product</h2>
+    <input type="text" id="newTitle" placeholder="Product title" />
+    <input type="text" id="newCategory" placeholder="Category (electronics, fashion, home)" />
+    <input type="number" id="newPrice" placeholder="Price" />
+    <input type="number" id="newOldPrice" placeholder="Old Price" />
+    <input type="text" id="newImage" placeholder="Image URL" />
+    <textarea id="newDesc" placeholder="Product description"></textarea>
+    <button class="add" onclick="addNewProduct()">Add Product</button>
+  </div>
+</div>
+
+<script>
+let products = [
+  {id:1,title:'Chaise',cat:'Home',price:9.99,old:29.99,desc:'2ymeeeen.',img:'https://cdn.youcan.shop/stores/8215d6f91642214a25c5733cb13345c8/products/XXlITLl7MIciJM8jO9zgzwiNw3K9eEZJc6dyQjXm_md.jpeg'},
+  {id:1,title:'2ymeeeen',cat:'2ymeeeen',price:9.99,old:29.99,desc:'2ymeeeen.',img:'https://via.placeholder.com/150'},
+  {id:1,title:'2ymeeeen',cat:'2ymeeeen',price:9.99,old:29.99,desc:'2ymeeeen.',img:'https://via.placeholder.com/150'},
+  {id:1,title:'2ymeeeen',cat:'2ymeeeen',price:9.99,old:29.99,desc:'2ymeeeen.',img:'https://via.placeholder.com/150'},
+  {id:1,title:'2ymeeeen',cat:'2ymeeeen',price:9.99,old:29.99,desc:'2ymeeeen.',img:'https://via.placeholder.com/150'},
+
+
+];
+
+let activeCategory = 'all';
+
+// Render products
+function renderProducts(){
+  const grid = document.getElementById('grid');
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const sort = document.getElementById('sortSelect').value;
+  let list = products.filter(p=> (activeCategory==='all' || p.cat===activeCategory) && (p.title.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)));
+  if(sort==='price-asc') list.sort((a,b)=>a.price-b.price);
+  if(sort==='price-desc') list.sort((a,b)=>b.price-a.price);
+
+  grid.innerHTML='';
+  list.forEach(p=>{
+    const el=document.createElement('div'); el.className='card';
+    el.innerHTML=`
+      <div class="thumb" onclick="openModal(${p.id})">
+        <img src="${p.img}" alt="${p.title}">
+      </div>
+      <div class="title">${p.title}</div>
+      <div class="meta">${p.cat}</div>
+      <div class="price-row">
+        <div>
+          <div class="price">$${p.price.toFixed(2)}</div>
+          <div class="old">$${p.old.toFixed(2)}</div>
+        </div>
+        <div>
+          <button class="add" onclick="goToPayment(${p.id})">Add</button>
+        </div>
+      </div>
+    `;
+    grid.appendChild(el);
+  });
+  document.getElementById('showingCount').innerText = list.length;
+}
+
+function filterCategory(cat){activeCategory=cat;renderProducts();}
+
+// Navigate to payment page
+function goToPayment(id){
+  const p = products.find(x=>x.id===id);
+  if(!p) return;
+  const params = new URLSearchParams({
+    id: p.id,
+    title: p.title,
+    price: p.price,
+    image: p.img
+  });
+  window.location.href = `payment.html?${params.toString()}`;
+}
+
+// Modal functions
+let currentModalId=null;
+function openModal(id){
+  const p=products.find(x=>x.id===id); if(!p) return;
+  currentModalId=id;
+  document.getElementById('modalTitle').innerText=p.title;
+  document.getElementById('modalDesc').innerText=p.desc;
+  document.getElementById('modalPrice').innerText='$'+p.price.toFixed(2);
+  document.getElementById('modalImg').innerHTML=`<img src="${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(e){document.getElementById('modal').classList.remove('open');}
+function addToCartFromModal(){ if(!currentModalId) return; goToPayment(currentModalId); closeModal(); }
+
+// Add Product Modal
+function openAddProductModal(){document.getElementById('addProductModal').classList.add('open');}
+function closeAddProductModal(e){document.getElementById('addProductModal').classList.remove('open');}
+function addNewProduct(){
+  const title=document.getElementById('newTitle').value.trim();
+  const cat=document.getElementById('newCategory').value.trim();
+  const price=parseFloat(document.getElementById('newPrice').value);
+  const old=parseFloat(document.getElementById('newOldPrice').value) || price;
+  const image=document.getElementById('newImage').value.trim();
+  const desc=document.getElementById('newDesc').value.trim();
+  if(!title||!cat||isNaN(price)){alert("Please fill all fields correctly."); return;}
+  const id=products.length ? Math.max(...products.map(p=>p.id))+1 :1;
+  products.push({id,title,cat,price,old,img:image,desc});
+  renderProducts();
+  closeAddProductModal();
+  // reset inputs
+  document.getElementById('newTitle').value='';
+  document.getElementById('newCategory').value='';
+  document.getElementById('newPrice').value='';
+  document.getElementById('newOldPrice').value='';
+  document.getElementById('newImage').value='';
+  document.getElementById('newDesc').value='';
+}
+
+// Search
+document.getElementById('searchInput').addEventListener('input', ()=>renderProducts());
+
+// Initialize
+renderProducts();
+</script>
+</body>
+</html>
